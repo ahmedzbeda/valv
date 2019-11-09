@@ -161,6 +161,7 @@
             showConfirm();
 
         } elseif ($_POST['submit'] == 'login') {
+
             foreach ($customers as $customer) {
                 if($customer[3] == $_POST['username']) {
                     $_SESSION['username'] = $customer[1];
@@ -168,6 +169,7 @@
                     $_SESSION['phone'] = $customer[3];
                     $_SESSION['id'] = $customer[0];
                     header("Refresh:0");
+                    break;
                 }
             }
             showLogin(false);
