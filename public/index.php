@@ -1,3 +1,6 @@
+<?php session_start();
+//header('Content-Type: text/plain'); ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,6 +77,17 @@
     </script>
 </head>
 <body style="padding-bottom: 200px;">
+
+<?php if(!empty($_SESSION['username'])) { ?>
+<nav class="navbar navbar-dark bg-dark d-flex align-items-end bd-highlight">
+    <p class="text-white m-0"><?php echo $_SESSION['username']; ?></p>
+    <form class="form-inline" method="post" action="index.php">
+        <button name="submit" value="logout" class="btn btn-danger">خروج</button>
+    </form>
+</nav>
+<?php } ?>
+
+
 <div class="container">
     <div class="row pt-5 pb-4">
         <div class="col-xs-6 text-right">
@@ -90,12 +104,12 @@
     require('excel_reader2.php');
     require('SpreadsheetReader.php');
     $reader = new SpreadsheetReader('../items.xlsx');
-    $customer = new SpreadsheetReader('../customers.xlsx');
+    $customers = new SpreadsheetReader('../customers.xlsx');
 
     if (empty($_POST)) {
 
-        if (empty($_SESSION['user'])) {
-            showLogin();
+        if (empty($_SESSION['username'])) {
+            showLogin(true);
         } else {
             listItems();
         }
@@ -108,39 +122,63 @@
         } elseif ($_POST['submit'] == 'edit') {
             $s = unserialize(base64_decode($_POST['serial']));
             listItems();
+
         } elseif ($_POST['submit'] == 'email') {
 
-            showConfirm();
+            $items = unserialize(base64_decode($_POST['serial']));
+
+
+            $message = "<p>" . $_SESSION['id'] . " " . $_SESSION['username'];
+            $message .= "<br />" . $_SESSION['address'] . "<br />" . $_SESSION['phone'] . "</p>";
+            $message .= "<table width='100%' border='1'>";
+            foreach ($items as $item => $quantity) {
+                foreach ($reader as $areader) {
+                    if ($item == $areader[0]) {
+                        if($quantity != 0) {
+                            $price = empty($areader[6]) ? $areader[5] : $areader[6];
+                            $itemTotal = $price * $quantity;
+                            $total += $itemTotal;
+                            $message .= "<tr>";
+                            $message .= "<td align='left'>" . $item . " " . $areader[1] . " " . $areader[2] . "</td>";
+                            $message .= "<td align='center'>" . $quantity . "</td><td align='center'>" . $price . "</td><td align='center'>" . $itemTotal . "</td>";
+                            $message .= "</tr>";
+                        }
+                    }
+                }
+            }
+            $message .= "<tr><td colspan='4' align='right'>Total: " . $total . "</td></tr></table>";
+
+
             $to      = '0@0.ly';
-            $subject = 'the subject';
-            $message = 'hello';
+            $subject = 'New Invoice';
             $headers = 'From: 0@0.ly' . "\r\n" .
                 'Reply-To: 0@0.ly' . "\r\n" .
+                'Content-Type: text/html; charset=UTF-8' . "\r\n" .
                 'X-Mailer: PHP/' . phpversion();
 
             mail($to, $subject, $message, $headers);
+
+            showConfirm();
+
+        } elseif ($_POST['submit'] == 'login') {
+            foreach ($customers as $customer) {
+                if($customer[3] == $_POST['username']) {
+                    $_SESSION['username'] = $customer[1];
+                    $_SESSION['address'] = $customer[2];
+                    $_SESSION['phone'] = $customer[3];
+                    $_SESSION['id'] = $customer[0];
+                    header("Refresh:0");
+                }
+            }
+            showLogin(false);
+
+        } elseif ($_POST['submit'] == 'logout') {
+            session_destroy();
+            header("Refresh:0");
         }
     }
 
     ?>
-
-
-    <?php function showLogin() { ?>
-        <div class="container h-80 pt-5">
-            <div class="row align-items-center h-100">
-                <div class="col-3 mx-auto">
-                    <div class="text-center">
-                        <p id="profile-name" class="profile-name-card"></p>
-                        <form  class="form-signin">
-                            <input type="text" name="username" id="input" class="form-control form-group" placeholder="رقم الهاتف" required autofocus>
-                            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">دخول</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <? } ?>
-
 
     <?php function listItems() { global $reader, $s; ?>
         <div class="row">
@@ -210,8 +248,8 @@
                 } ?>
                 <div class="fixed-bottom bg-dark border-top pt-3">
                     <div class="container">
-                        <h1 class="float-right text-white"><span class="total">0</span> د.ل </h1>
-                        <button class="float-left btn btn-light" name="submit" value="cart">إنشاء الفاتورة</button>
+                        <button class="float-left btn btn-light mx-3" name="submit" value="cart">إنشاء الفاتورة</button>
+                        <h1 class="float-left text-white"><span class="total">0</span> د.ل </h1>
                     </div>
                 </div>
             </form>
@@ -219,7 +257,8 @@
     <?php } ?>
 
     <?php function showInvoice() { global $reader, $_POST, $s; ?>
-
+        <h3>لصالح: <?php echo $_SESSION['username']; ?></h3>
+        <p><?php echo $_SESSION['address']; ?></p>
         <div class="table-responsive-sm">
             <table class="table table-striped">
                 <thead>
@@ -273,8 +312,24 @@
     <?php function showConfirm() { ?>
         <h1 class="text-center text-dark pt-5">لقد تم إرسال طلبك، شكرًا لاختياركم فالفولين</h1>
         <h4 class="text-center text-muted">لأي استفسار يرجى الاتصال على الأرقام 0917050555 - 0927050555</h4>
+
     <?php } ?>
 
+    <?php function showLogin($status = true) { ?>
+        <div class="container h-80 pt-5">
+            <div class="row align-items-center h-100">
+                <div class="col-3 mx-auto">
+                    <div class="text-center">
+                        <p id="profile-name" class="profile-name-card text-danger"><?php if ($status == false) {echo "إدخال غير صحيح !"; } ?></p>
+                        <form  class="form-signin" method="post" action="index.php">
+                            <input type="text" name="username" id="input" class="form-control form-group" placeholder="رقم الهاتف" required autofocus>
+                            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" name="submit" value="login">دخول</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <? } ?>
 
 
 </div>
