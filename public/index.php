@@ -131,6 +131,7 @@
             $message = "<p>" . $_SESSION['id'] . " " . $_SESSION['username'];
             $message .= "<br />" . $_SESSION['address'] . "<br />" . $_SESSION['phone'] . "</p>";
             $message .= "<table width='100%' border='1'>";
+            $total = 0;
             foreach ($items as $item => $quantity) {
                 foreach ($reader as $areader) {
                     if ($item == $areader[0]) {
