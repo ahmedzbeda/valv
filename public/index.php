@@ -169,7 +169,7 @@
                     $_SESSION['phone'] = $customer[3];
                     $_SESSION['id'] = $customer[0];
                     header("Refresh:0");
-                    break;
+                    exit;
                 }
             }
             showLogin(false);
