@@ -97,7 +97,7 @@
             <a href="index.php"><img src="img/logo.png" style="max-width: 400px;"></a>
         </div>
     </div>
-    <p class="text-muted small text-right">شركة أرواد للزيوت. الوكيل الرسمي لشركة فالفولين في ليبيا
+    <p class="text-muted small text-left">شركة أرواد للزيوت. الوكيل الرسمي لشركة فالفولين في ليبيا
     <br />شارع البرج، سوق الجمعة، طرابلس
     <br />0917050555 - 0927050555</p>
     <?php
