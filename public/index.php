@@ -35,6 +35,12 @@
             transition: background 1s
 
         }
+
+        @media (max-width:576px) {
+            * {
+             font-size: 14px;
+            }
+        }
     </style>
 
     <script type="text/javascript">
@@ -91,13 +97,13 @@
 <div class="container">
     <div class="row pt-5 pb-4">
         <div class="col-xs-6 text-right">
-            <a href="index.php"><img src="img/logo2.png" style="max-width: 400px;"></a>
+            <a href="index.php"><img src="img/logo2.png" style="max-width: 100%;"></a>
         </div>
         <div class="col-xs-6 text-left">
-            <a href="index.php"><img src="img/logo.png" style="max-width: 400px;"></a>
+            <a href="index.php"><img src="img/logo.png" style="max-width: 100%;"></a>
         </div>
     </div>
-    <p class="text-muted small text-left">شركة أرواد للزيوت. الوكيل الرسمي لشركة فالفولين في ليبيا
+    <p class="text-muted small text-center text-sm-left">شركة أرواد للزيوت. الوكيل الرسمي لشركة فالفولين في ليبيا
     <br />شارع البرج، سوق الجمعة، طرابلس
     <br />0917050555 - 0927050555</p>
     <?php
@@ -150,10 +156,10 @@
             $message .= "<tr><td colspan='4' align='right'>Total: " . $total . "</td></tr></table>";
 
 
-            $to      = '0@0.ly';
+            $to      = 'order@arwad.ly';
             $subject = 'New Invoice';
-            $headers = 'From: 0@0.ly' . "\r\n" .
-                'Reply-To: 0@0.ly' . "\r\n" .
+            $headers = 'From: order@arwad.ly' . "\r\n" .
+                'Reply-To: order@arwad.ly' . "\r\n" .
                 'Content-Type: text/html; charset=UTF-8' . "\r\n" .
                 'X-Mailer: PHP/' . phpversion();
 
@@ -192,33 +198,33 @@
                         <div class="col-lg-12 col-sm-12 border oilItem"
                              style="min-height: 70px; border-bottom: 0px; margin: 2px; 0">
                             <div class="row">
-                                <div class="col-lg-1 p-1">
+                                <div class="col-lg-1 col-xs-2 p-1">
                                     <?php if (!empty($row[9])) { ?>
                                         <img class="pt-2" style="max-height: 70px;" src="img/<?php echo $row[9]; ?>"
                                              alt="<?php echo $row[1]; ?>">
                                     <?php } ?>
                                 </div>
-                                <div class="col-lg-5 p-2 pt-3">
+                                <div class="col-lg-5 col-xs-6 p-2 pt-3">
                                     <h3 class="h6 text-info"><?php echo $row[0]; ?> - <?php echo $row[1]; ?></h3>
                                     <?php if (!empty($row[9])) { ?>
                                         <small class="text-muted"><?php echo $row[8]; ?></small><?php } ?>
                                 </div>
-                                <div class="col-lg-1 p-2 pt-3 text-center">
+                                <div class="col-lg-1 col-xs-1 p-2 pt-3 text-center">
                                     <p class="text-info"><?php echo $row[2]; ?></p>
                                 </div>
-                                <div class="col-lg-2 p-2 pt-3 text-center"
+                                <div class="col-lg-2 p-2 col-xs-3 pt-3 text-center"
                                      style="direction: rtl; border-left: 1px solid #ccc;">
-                                    <span class="text-danger font-weight-bold text-nowrap"><?php if (!empty($row[6])) { ?>د.ل <?php echo $row[6]; ?><?php } ?></span>
+                                    <span class="text-danger font-weight-bold"><?php if (!empty($row[6])) { ?><?php echo $row[6]; ?> د<?php } ?></span>
                                     <p class="<?php if (!empty($row[6])) {
                                         echo "strike small";
-                                    } ?> text-muted">د.ل <?php echo $row[5]; ?></p>
+                                    } ?> text-muted"><?php echo $row[5]; ?> د</p>
                                 </div>
 
-                                <div class="col-lg-3 pt-1 text-right quantityBox"
+                                <div class="col-lg-3 col-xs-12 pt-1 text-right quantityBox"
                                      style="direction: rtl; border-left: 1px solid #ccc;">
                                     <?php if ($row[7] == 1) { ?>
-                                        <div class="form-group row p-2">
-                                            <div class="input-group col-lg-8" style="direction: ltr">
+                                        <div class="form-group row p-lg-2" style="margin-bottom: 5px !important;">
+                                            <div class="input-group col-lg-8 col-xs-8" style="direction: ltr">
                                                 <div class="input-group-prepend">
                                                     <button class="btn btn-outline-secondary" type="button"
                                                             onclick="resetValue(this)">x
@@ -226,14 +232,14 @@
                                                 </div>
                                                 <input type="number" min="0" max="<?php echo $row[4]; ?>"
                                                        price="<?php echo empty($row[6]) ? $row[5] : $row[6]; ?>"
-                                                       onchange="preCart(this)"
+                                                       onchange="preCart(this)" onkeyup="preCart(this)"
                                                        class="form-control quantity" id="quant<?php echo $row[0]; ?>"
                                                        name="<?php echo $row[0]; ?>"
                                                        oninvalid="this.setCustomValidity('يجب أن يكون رقم وأن لا يتجاوز أقصى كمية')"
                                                        oninput="this.setCustomValidity('')" value="<?php if($s[$row[0]] != 0) echo $s[$row[0]]; else echo 0; ?>">
                                             </div>
                                             <label for="quant<?php echo $row[0]; ?>"
-                                                   class="text-muted col-form-label col-lg-4"><?php echo $row[3]; ?></label>
+                                                   class="text-muted col-form-label col-lg-4 col-xs-4"><?php echo $row[3]; ?></label>
                                         </div>
                                         <p>
                                             <small class="text-right pr-3" style="color: #999;">أقصى
@@ -287,7 +293,7 @@
 
                     <td class="text-right"><? echo empty($row[6]) ? $row[5] : $row[6] ?></td>
                     <td class="text-center"><? echo $input ?></td>
-                    <td class="text-left"><? $p = empty($row[6]) ? $row[5] : $row[6]; echo $p * $input ?> د.ل</td>
+                    <td class="text-left" style="white-space: nowrap"><? $p = empty($row[6]) ? $row[5] : $row[6]; echo $p * $input ?> د</td>
 
                     <?php $total += $p * $input;  }}} ?>
 
@@ -295,7 +301,7 @@
                 <tr>
                 <td></td>
                 <td colspan="2" class="text-right align-middle"><strong>الإجمالي:</strong></td>
-                <td colspan="2" class="text-left align-middle"><h3 class="font-weight-bold"><?php echo $total; ?> د.ل</h3></td>
+                <td colspan="2" class="text-left align-middle"><h3 class="font-weight-bold"><?php echo $total; ?> د</h3></td>
                 </tr>
                 <tr>
                 <td colspan="5" class="text-left align-middle px-0" style="background: #FFF;">
@@ -321,7 +327,7 @@
     <?php function showLogin($status = true) { ?>
         <div class="container h-80 pt-5">
             <div class="row align-items-center h-100">
-                <div class="col-3 mx-auto">
+                <div class="col-lg-3 col-md-6 col-xs-10 mx-auto">
                     <div class="text-center">
                         <p id="profile-name" class="profile-name-card text-danger"><?php if ($status == false) {echo "إدخال غير صحيح !"; } ?></p>
                         <form  class="form-signin" method="post" action="index.php">
