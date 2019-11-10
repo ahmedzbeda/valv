@@ -157,7 +157,7 @@
 
 
             $to      = 'order@arwad.ly';
-            $subject = 'New Invoice';
+            $subject = 'New Invoice ' . $total . 'LD';
             $headers = 'From: order@arwad.ly' . "\r\n" .
                 'Reply-To: order@arwad.ly' . "\r\n" .
                 'Content-Type: text/html; charset=UTF-8' . "\r\n" .
