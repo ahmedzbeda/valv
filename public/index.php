@@ -167,7 +167,7 @@
 
 
             $to = 'order@arwad.ly';
-            $subject = 'New Invoice ' . $total . 'LYD';
+            $subject = 'New Invoice ' . time();
             $headers = 'From: order@arwad.ly' . "\r\n" .
                 'Reply-To: order@arwad.ly' . "\r\n" .
                 'Content-Type: text/html; charset=UTF-8' . "\r\n" .
@@ -180,11 +180,11 @@
         } elseif ($_POST['submit'] == 'login') {
 
             foreach ($customers as $customer) {
-                if ($customer[3] == $_POST['username']) {
+                if ($customer[4] == $_POST['username']) {
                     $_SESSION['username'] = $customer[1];
                     $_SESSION['address'] = $customer[2];
                     $_SESSION['phone'] = $customer[3];
-                    $_SESSION['id'] = $customer[0];
+                    $_SESSION['id'] = $customer[4];
                     header("Refresh:0");
                     exit;
                 }
@@ -252,6 +252,7 @@
                                                        oninvalid="this.setCustomValidity('يجب أن يكون رقم وأن لا يتجاوز أقصى كمية')"
                                                        oninput="this.setCustomValidity('')"
                                                        value="<?php if ($s[$row[0]] != 0) echo $s[$row[0]]; else echo 0; ?>">
+
                                             </div>
                                             <label for="quant<?php echo $row[0]; ?>"
                                                    class="text-muted col-form-label col-lg-4 col-xs-4"><?php echo $row[3]; ?></label>
