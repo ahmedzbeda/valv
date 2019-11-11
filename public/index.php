@@ -14,7 +14,7 @@
     <script src="js/bootstrap.min.js"></script>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/bootstrap-rtl.css" rel="stylesheet">
+    <link href="css/bootstrap-rtl.css" rel="stylesheet">
 
     <style>
 
@@ -47,7 +47,11 @@
         function itemsSum() {
             var total = 0;
             $('input[type="number"]').each(function (i, obj) {
-                var n = parseInt($(obj).val()) * parseInt($(obj).attr('price'));
+                // console.log(jQuery.type( $(obj).val() ));
+
+                var a = parseInt($(obj).val());
+                a = a ? a : 0;
+                var n = a * parseInt($(obj).attr('price'));
                 total += n;
             });
             $('.total').html(total);
@@ -72,11 +76,11 @@
         $(document).ready(function () {
             itemsSum();
             $('input[type="number"]').each(function (i, obj) {
-                if ($(obj).val() > 0) {
-                    $(obj).parents(".oilItem").addClass('bg');
-                } else {
-                    $(obj).parents(".oilItem").removeClass('bg');
-                }
+                    if ($(obj).val() > 0) {
+                        $(obj).parents(".oilItem").addClass('bg');
+                    } else {
+                        $(obj).parents(".oilItem").removeClass('bg');
+                    }
                 }
             );
         })
@@ -84,13 +88,13 @@
 </head>
 <body style="padding-bottom: 200px;">
 
-<?php if(!empty($_SESSION['username'])) { ?>
-<nav class="navbar navbar-dark bg-dark d-flex align-items-end bd-highlight">
-    <h3 class="text-white m-0"><?php echo $_SESSION['username']; ?></h3>
-    <form class="form-inline" method="post" action="index.php">
-        <button name="submit" value="logout" class="btn btn-danger">خروج</button>
-    </form>
-</nav>
+<?php if (!empty($_SESSION['username'])) { ?>
+    <nav class="navbar navbar-dark bg-dark d-flex align-items-end bd-highlight">
+        <h3 class="text-white m-0"><?php echo $_SESSION['username']; ?></h3>
+        <form class="form-inline" method="post" action="index.php">
+            <button name="submit" value="logout" class="btn btn-danger">خروج</button>
+        </form>
+    </nav>
 <?php } ?>
 
 
@@ -139,7 +143,7 @@
             foreach ($items as $item => $quantity) {
                 foreach ($reader as $areader) {
                     if ($item == $areader[0]) {
-                        if($quantity != 0) {
+                        if ($quantity != 0) {
                             $price = empty($areader[6]) ? $areader[5] : $areader[6];
                             $itemTotal = $price * $quantity;
                             $total += $itemTotal;
@@ -154,7 +158,7 @@
             $message .= "<tr><td colspan='4' align='right'>Total: " . $total . "</td></tr></table>";
 
 
-            $to      = 'order@arwad.ly';
+            $to = 'order@arwad.ly';
             $subject = 'New Invoice ' . $total . 'LYD';
             $headers = 'From: order@arwad.ly' . "\r\n" .
                 'Reply-To: order@arwad.ly' . "\r\n" .
@@ -168,7 +172,7 @@
         } elseif ($_POST['submit'] == 'login') {
 
             foreach ($customers as $customer) {
-                if($customer[3] == $_POST['username']) {
+                if ($customer[3] == $_POST['username']) {
                     $_SESSION['username'] = $customer[1];
                     $_SESSION['address'] = $customer[2];
                     $_SESSION['phone'] = $customer[3];
@@ -189,7 +193,9 @@
 
 
 
-    <?php function listItems() { global $reader, $s; ?>
+    <?php function listItems()
+    {
+        global $reader, $s; ?>
         <div class="row">
             <form class="form-inline" method="post" autocomplete="off" action="index.php">
                 <?php
@@ -236,7 +242,8 @@
                                                        class="form-control quantity" id="quant<?php echo $row[0]; ?>"
                                                        name="<?php echo $row[0]; ?>"
                                                        oninvalid="this.setCustomValidity('يجب أن يكون رقم وأن لا يتجاوز أقصى كمية')"
-                                                       oninput="this.setCustomValidity('')" value="<?php if($s[$row[0]] != 0) echo $s[$row[0]]; else echo 0; ?>">
+                                                       oninput="this.setCustomValidity('')"
+                                                       value="<?php if ($s[$row[0]] != 0) echo $s[$row[0]]; else echo 0; ?>">
                                             </div>
                                             <label for="quant<?php echo $row[0]; ?>"
                                                    class="text-muted col-form-label col-lg-4 col-xs-4"><?php echo $row[3]; ?></label>
@@ -265,7 +272,9 @@
         </div>
     <?php } ?>
 
-    <?php function showInvoice() { global $reader, $_POST, $s; ?>
+    <?php function showInvoice()
+    {
+        global $reader, $_POST, $s; ?>
         <h3>لصالح: <?php echo $_SESSION['username']; ?></h3>
         <p><?php echo $_SESSION['address']; ?></p>
         <div class="table-responsive-sm">
@@ -283,8 +292,12 @@
                 <tbody>
 
                 <?php $total = 0;
-                foreach ($reader as $key => $row) { ?>
-                <?php foreach ($_POST as $inputKey => $input) { ?>
+                foreach ($reader
+
+                as $key => $row) { ?>
+                <?php foreach ($_POST
+
+                as $inputKey => $input) { ?>
                 <?php if ($row[0] == $inputKey && $input != 0) { ?>
 
                 <tr>
@@ -293,24 +306,30 @@
 
                     <td class="text-right"><?php echo empty($row[6]) ? $row[5] : $row[6] ?></td>
                     <td class="text-center"><?php echo $input ?></td>
-                    <td class="text-left" style="white-space: nowrap"><?php $p = empty($row[6]) ? $row[5] : $row[6]; echo $p * $input ?> د.ل</td>
+                    <td class="text-left" style="white-space: nowrap"><?php $p = empty($row[6]) ? $row[5] : $row[6];
+                        echo $p * $input ?> د.ل
+                    </td>
 
-                    <?php $total += $p * $input;  }}} ?>
+                    <?php $total += $p * $input;
+                    }
+                    }
+                    } ?>
 
                 </tr>
                 <tr>
-                <td></td>
-                <td colspan="4" class="text-right"><h3 class="font-weight-bold"><strong>الإجمالي: </strong><?php echo $total; ?> د.ل</h3></td>
+                    <td></td>
+                    <td colspan="4" class="text-right"><h3 class="font-weight-bold">
+                            <strong>الإجمالي: </strong><?php echo $total; ?> د.ل</h3></td>
 
                 </tr>
                 <tr>
-                <td colspan="5" class="text-left align-middle px-0" style="background: #FFF;">
-                    <form class="form" method="post" action="index.php">
-                        <input type="hidden" value="<?php print $s; ?>" name="serial">
-                        <button name="submit" value="edit" class="btn btn-danger">تعديل</button>
-                        <button name="submit" value="email" class="btn btn-success">إرسال الفاتورة</button>
-                    </form>
-                </td>
+                    <td colspan="5" class="text-left align-middle px-0" style="background: #FFF;">
+                        <form class="form" method="post" action="index.php">
+                            <input type="hidden" value="<?php print $s; ?>" name="serial">
+                            <button name="submit" value="edit" class="btn btn-danger">تعديل</button>
+                            <button name="submit" value="email" class="btn btn-success">إرسال الفاتورة</button>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -318,21 +337,28 @@
     <?php } ?>
 
 
-    <?php function showConfirm() { ?>
+    <?php function showConfirm()
+    { ?>
         <h1 class="text-center text-dark pt-5">لقد تم إرسال طلبك، شكرًا لاختياركم فالفولين</h1>
         <h4 class="text-center text-muted">لأي استفسار يرجى الاتصال على الأرقام 0917050555 - 0927050555</h4>
 
     <?php } ?>
 
-    <?php function showLogin($status = true) { ?>
+    <?php function showLogin($status = true)
+    { ?>
         <div class="container h-80 pt-5">
             <div class="row align-items-center h-100">
                 <div class="col-lg-3 col-md-6 col-xs-10 mx-auto">
                     <div class="text-center">
-                        <p id="profile-name" class="profile-name-card text-danger"><?php if ($status == false) {echo "إدخال غير صحيح !"; } ?></p>
-                        <form  class="form-signin" method="post" action="index.php">
-                            <input type="text" name="username" id="input" class="form-control form-group" placeholder="رقم الهاتف" required autofocus>
-                            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" name="submit" value="login">دخول</button>
+                        <p id="profile-name" class="profile-name-card text-danger"><?php if ($status == false) {
+                                echo "إدخال غير صحيح !";
+                            } ?></p>
+                        <form class="form-signin" method="post" action="index.php">
+                            <input type="text" name="username" id="input" class="form-control form-group"
+                                   placeholder="رقم الهاتف" required autofocus>
+                            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" name="submit"
+                                    value="login">دخول
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -340,9 +366,10 @@
         </div>
     <?php } ?>
 
-    <p class="text-muted font-weight-bold text-center text-sm-left mt-5">شركة أرواد للزيوت. الوكيل الرسمي لشركة فالفولين في ليبيا
-        <br />شارع البرج، سوق الجمعة، طرابلس
-        <br />0917050555 - 0927050555</p>
+    <p class="text-muted font-weight-bold text-center text-sm-left mt-5">شركة أرواد للزيوت. الوكيل الرسمي لشركة فالفولين
+        في ليبيا
+        <br/>شارع البرج، سوق الجمعة، طرابلس
+        <br/>0917050555 - 0927050555</p>
 
     <!-- Google Analytics -->
 
