@@ -18,8 +18,10 @@
 
     <style>
 
+        @import url('https://fonts.googleapis.com/css?family=Tajawal&display=swap');
+
         * {
-            font-family: Arial;
+            font-family: 'Tajawal', sans-serif;
         }
 
         .strike {
@@ -36,11 +38,10 @@
 
         }
 
-        /*@media (max-width:576px) {*/
-        /*    * {*/
-        /*     font-size: 14px;*/
-        /*    }*/
-        /*}*/
+        .disableClick{
+            pointer-events: none;
+            background: #666;
+        }
     </style>
 
     <script type="text/javascript">
@@ -55,6 +56,13 @@
                 total += n;
             });
             $('.total').html(total);
+
+            if (total > 0) {
+                $('.invoice').removeClass('disableClick');
+            } else {
+                $('.invoice').addClass('disableClick');
+
+            }
         }
 
         function preCart(el) {
@@ -264,8 +272,8 @@
                 } ?>
                 <div class="fixed-bottom bg-dark border-top pt-3">
                     <div class="container">
-                        <button class="float-left btn btn-light mx-3" name="submit" value="cart">إنشاء الفاتورة</button>
-                        <h1 class="float-left text-white"><span class="total">0</span> د.ل </h1>
+                        <button class="invoice float-left btn btn-light mx-3 disableClick" name="submit" value="cart">إنشاء الفاتورة</button>
+                        <h1 class="float-right text-white"><span class="total">0</span> د.ل </h1>
                     </div>
                 </div>
             </form>
@@ -318,9 +326,8 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="4" class="text-right"><h3 class="font-weight-bold">
-                            <strong>الإجمالي: </strong><?php echo $total; ?> د.ل</h3></td>
-
+                    <td colspan="2" class="text-right align-middle"><strong>الإجمالي:</strong></td>
+                    <td colspan="2" class="text-left align-middle"><h3 class="font-weight-bold"><?php echo $total; ?> د</h3></td>
                 </tr>
                 <tr>
                     <td colspan="5" class="text-left align-middle px-0" style="background: #FFF;">
