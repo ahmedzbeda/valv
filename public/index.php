@@ -86,7 +86,7 @@
 
 <?php if(!empty($_SESSION['username'])) { ?>
 <nav class="navbar navbar-dark bg-dark d-flex align-items-end bd-highlight">
-    <p class="text-white m-0"><?php echo $_SESSION['username']; ?></p>
+    <h3 class="text-white m-0"><?php echo $_SESSION['username']; ?></h3>
     <form class="form-inline" method="post" action="index.php">
         <button name="submit" value="logout" class="btn btn-danger">خروج</button>
     </form>
@@ -103,9 +103,7 @@
             <a href="index.php"><img src="img/logo.png" style="max-width: 100%;"></a>
         </div>
     </div>
-    <p class="text-muted small text-center text-sm-left">شركة أرواد للزيوت. الوكيل الرسمي لشركة فالفولين في ليبيا
-    <br />شارع البرج، سوق الجمعة، طرابلس
-    <br />0917050555 - 0927050555</p>
+
     <?php
     require('excel_reader2.php');
     require('SpreadsheetReader.php');
@@ -157,7 +155,7 @@
 
 
             $to      = 'order@arwad.ly';
-            $subject = 'New Invoice ' . $total . 'LD';
+            $subject = 'New Invoice ' . $total . 'LYD';
             $headers = 'From: order@arwad.ly' . "\r\n" .
                 'Reply-To: order@arwad.ly' . "\r\n" .
                 'Content-Type: text/html; charset=UTF-8' . "\r\n" .
@@ -216,10 +214,10 @@
                                 </div>
                                 <div class="col-lg-2 p-2 col-xs-3 pt-3 text-center"
                                      style="direction: rtl; border-left: 1px solid #ccc;">
-                                    <span class="text-danger font-weight-bold"><?php if (!empty($row[6])) { ?><?php echo $row[6]; ?> د<?php } ?></span>
+                                    <span class="text-danger font-weight-bold"><?php if (!empty($row[6])) { ?><?php echo $row[6]; ?> د.ل<?php } ?></span>
                                     <p class="<?php if (!empty($row[6])) {
                                         echo "strike small";
-                                    } ?> text-muted"><?php echo $row[5]; ?> د</p>
+                                    } ?> text-muted"><?php echo $row[5]; ?> د.ل</p>
                                 </div>
 
                                 <div class="col-lg-3 col-xs-12 pt-1 text-right quantityBox"
@@ -274,8 +272,8 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th class="text-center">#</th>
-                    <th class="text-right">الاسم</th>
+                    <th class="text-center">رقم الصنف</th>
+                    <th class="text-right">اسم الصنف</th>
 
                     <th class="text-right">السعر</th>
                     <th class="text-center">الكمية</th>
@@ -295,15 +293,15 @@
 
                     <td class="text-right"><?php echo empty($row[6]) ? $row[5] : $row[6] ?></td>
                     <td class="text-center"><?php echo $input ?></td>
-                    <td class="text-left" style="white-space: nowrap"><?php $p = empty($row[6]) ? $row[5] : $row[6]; echo $p * $input ?> د</td>
+                    <td class="text-left" style="white-space: nowrap"><?php $p = empty($row[6]) ? $row[5] : $row[6]; echo $p * $input ?> د.ل</td>
 
                     <?php $total += $p * $input;  }}} ?>
 
                 </tr>
                 <tr>
                 <td></td>
-                <td colspan="2" class="text-right align-middle"><strong>الإجمالي:</strong></td>
-                <td colspan="2" class="text-left align-middle"><h3 class="font-weight-bold"><?php echo $total; ?> د</h3></td>
+                <td colspan="4" class="text-right"><h3 class="font-weight-bold"><strong>الإجمالي: </strong><?php echo $total; ?> د.ل</h3></td>
+
                 </tr>
                 <tr>
                 <td colspan="5" class="text-left align-middle px-0" style="background: #FFF;">
@@ -342,6 +340,11 @@
         </div>
     <?php } ?>
 
+    <p class="text-muted font-weight-bold text-center text-sm-left mt-5">شركة أرواد للزيوت. الوكيل الرسمي لشركة فالفولين في ليبيا
+        <br />شارع البرج، سوق الجمعة، طرابلس
+        <br />0917050555 - 0927050555</p>
+
+    <!-- Google Analytics -->
 
 </div>
 </body>
