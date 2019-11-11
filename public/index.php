@@ -36,11 +36,11 @@
 
         }
 
-        @media (max-width:576px) {
-            * {
-             font-size: 14px;
-            }
-        }
+        /*@media (max-width:576px) {*/
+        /*    * {*/
+        /*     font-size: 14px;*/
+        /*    }*/
+        /*}*/
     </style>
 
     <script type="text/javascript">
