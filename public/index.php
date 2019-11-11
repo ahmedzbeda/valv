@@ -189,6 +189,8 @@
 
     ?>
 
+
+
     <?php function listItems() { global $reader, $s; ?>
         <div class="row">
             <form class="form-inline" method="post" autocomplete="off" action="index.php">
@@ -245,9 +247,9 @@
                                             <small class="text-right pr-3" style="color: #999;">أقصى
                                                 كمية <?php echo $row[4]; ?> <?php echo $row[3]; ?></small>
                                         </p>
-                                    <? } else { ?>
+                                    <?php } else { ?>
                                         <p class="text-muted p-2 pt-3">غير متوفر</p>
-                                    <? } ?>
+                                    <?php } ?>
 
                                 </div>
 
@@ -288,12 +290,12 @@
                 <?php if ($row[0] == $inputKey && $input != 0) { ?>
 
                 <tr>
-                    <td class="text-center"><? echo $row[0] ?></td>
-                    <td class="text-right strong"><? echo $row[2] ?> - <? echo $row[1] ?> </td>
+                    <td class="text-center"><?php echo $row[0] ?></td>
+                    <td class="text-right strong"><?php echo $row[2] ?> - <?php echo $row[1] ?> </td>
 
-                    <td class="text-right"><? echo empty($row[6]) ? $row[5] : $row[6] ?></td>
-                    <td class="text-center"><? echo $input ?></td>
-                    <td class="text-left" style="white-space: nowrap"><? $p = empty($row[6]) ? $row[5] : $row[6]; echo $p * $input ?> د</td>
+                    <td class="text-right"><?php echo empty($row[6]) ? $row[5] : $row[6] ?></td>
+                    <td class="text-center"><?php echo $input ?></td>
+                    <td class="text-left" style="white-space: nowrap"><?php $p = empty($row[6]) ? $row[5] : $row[6]; echo $p * $input ?> د</td>
 
                     <?php $total += $p * $input;  }}} ?>
 
@@ -306,7 +308,7 @@
                 <tr>
                 <td colspan="5" class="text-left align-middle px-0" style="background: #FFF;">
                     <form class="form" method="post" action="index.php">
-                        <input type="hidden" value="<? print $s; ?>" name="serial">
+                        <input type="hidden" value="<?php print $s; ?>" name="serial">
                         <button name="submit" value="edit" class="btn btn-danger">تعديل</button>
                         <button name="submit" value="email" class="btn btn-success">إرسال الفاتورة</button>
                     </form>
@@ -338,7 +340,7 @@
                 </div>
             </div>
         </div>
-    <? } ?>
+    <?php } ?>
 
 
 </div>
