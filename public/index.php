@@ -143,12 +143,12 @@
 
             $items = unserialize(base64_decode($_POST['serial']));
 
-
-            $message = "<p>" . $_SESSION['id'] . " " . $_SESSION['username'];
+            $message = "<p>Invoice: " . $items['timestamp'] . "<br />";
+            $message .= $_SESSION['id'] . " - " . $_SESSION['username'];
             $message .= "<br />" . $_SESSION['address'] . "<br />" . $_SESSION['phone'] . "</p>";
             $message .= "<table width='100%' border='1'>";
             $total = 0;
-            foreach ($items as $item => $quantity) {
+            foreach ($items['items'] as $item => $quantity) {
                 foreach ($reader as $areader) {
                     if ($item == $areader[0]) {
                         if ($quantity != 0) {
@@ -166,8 +166,8 @@
             $message .= "<tr><td colspan='4' align='right'>Total: " . $total . "</td></tr></table>";
 
 
-            $to = 'order@arwad.ly';
-            $subject = 'New Invoice ' . time();
+            $to = '0@0.ly';
+            $subject = 'New Invoice ' . $items['timestamp'];
             $headers = 'From: order@arwad.ly' . "\r\n" .
                 'Reply-To: order@arwad.ly' . "\r\n" .
                 'Content-Type: text/html; charset=UTF-8' . "\r\n" .
@@ -248,10 +248,11 @@
                                                        price="<?php echo empty($row[6]) ? $row[5] : $row[6]; ?>"
                                                        onchange="preCart(this)" onkeyup="preCart(this)"
                                                        class="form-control quantity" id="quant<?php echo $row[0]; ?>"
-                                                       name="<?php echo $row[0]; ?>"
+                                                       name="items[<?php echo $row[0]; ?>]"
                                                        oninvalid="this.setCustomValidity('يجب أن يكون رقم وأن لا يتجاوز أقصى كمية')"
                                                        oninput="this.setCustomValidity('')"
-                                                       value="<?php if ($s[$row[0]] != 0) echo $s[$row[0]]; else echo 0; ?>">
+                                                       value="<?php if ($s['items'][$row[0]] != 0) echo $s['items'][$row[0]]; else echo 0; ?>">
+                                                <input type="hidden" name="timestamp" value="<?php echo time() ?>">
 
                                             </div>
                                             <label for="quant<?php echo $row[0]; ?>"
@@ -284,6 +285,7 @@
     <?php function showInvoice()
     {
         global $reader, $_POST, $s; ?>
+        <p class="h5">فاتورة: <?php echo $_POST['timestamp']; ?></p>
         <h3>لصالح: <?php echo $_SESSION['username']; ?></h3>
         <p><?php echo $_SESSION['address']; ?></p>
         <div class="table-responsive-sm">
@@ -304,7 +306,7 @@
                 foreach ($reader
 
                 as $key => $row) { ?>
-                <?php foreach ($_POST
+                <?php foreach ($_POST['items']
 
                 as $inputKey => $input) { ?>
                 <?php if ($row[0] == $inputKey && $input != 0) { ?>
@@ -378,8 +380,9 @@
         في ليبيا
         <br/>شارع البرج، سوق الجمعة، طرابلس
         <br/>0917050555 - 0927050555</p>
-
-    <!-- Google Analytics -->
-
 </div>
+
+<!-- Google Analytics -->
+
+
 </body>
